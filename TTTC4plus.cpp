@@ -196,7 +196,7 @@ class c4
         int i;
         int j;
         int counter;
-        for(j = 0; j < 6; j++)                                      //Check vertical
+        for(j = 0; j < 7; j++)                                      //Check vertical
         {
             counter = 0;
             for(i = 0; i < 4; i++)
@@ -211,7 +211,7 @@ class c4
         for(i = 4; i >= 0; i--)                                     //Check horizontal
         {
             counter = 0;
-            for(j = 0; j < 6; j++)
+            for(j = 0; j < 7; j++)
             {
                 if(board[i][j] == board[i][j+1] && board[i][j]!=' ')
                     counter++;
