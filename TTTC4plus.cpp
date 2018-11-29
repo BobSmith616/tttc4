@@ -149,29 +149,31 @@ public:
 //CLASS FOR CONNECT 4
 class c4
 {
-    char board[5][10];
-    char p[2][20];
-public:
+    int a,b;
+    char board[5][7];
+    char p[2][20], play[2];
+    public:
     void reset()
     {
         for(int i=0;i<5;i++)
-            for(int j=0;j<10;j++)
+            for(int j=0;j<7;j++)
                 board[i][j]=' ';
+        play[0]='X';    play[1]='O';
     }
     void display()
     {
-        cout<<"   1   2   3   4   5   6   7   8   9   10 "<<endl;
-        cout<<" _________________________________________";
+        cout<<"   1   2   3   4   5   6   7  "<<endl;
+        cout<<" _____________________________";
         for(int i=0;i<=4;i++)
         {
             cout<<endl;
-            for(int j=0;j<=9;j++)
+            for(int j=0;j<7;j++)
             {
                 cout<<" | "<<board[i][j];
             }
             cout<<" |";
         }
-        cout<<endl<<" _________________________________________";
+        cout<<endl<<" _____________________________";
         cout<<endl;
     }
     int checkfull()
@@ -179,7 +181,7 @@ public:
         int flag = 1;
         for(int i=0;i<=5;i++)
         {
-            for(int j=0;j<=9;j++)
+            for(int j=0;j<7;j++)
             {
                 if(board[i][j]==' ')
                 {
@@ -189,6 +191,50 @@ public:
         }
         return flag;
     }
+    int checkwin()                                    //Function to check validity of move
+    {
+        int i;
+        int j;
+        int counter;
+        for(j = 0; j < 6; j++)                                      //Check vertical
+        {
+            counter = 0;
+            for(i = 0; i < 4; i++)
+            {
+                if(board[i][j] == board[i+1][j] && board[i][j]!=' ')
+                    counter++;
+
+                if(counter == 3)
+                    return 1;
+            }
+        }
+        for(i = 4; i >= 0; i--)                                     //Check horizontal
+        {
+            counter = 0;
+            for(j = 0; j < 6; j++)
+            {
+                if(board[i][j] == board[i][j+1] && board[i][j]!=' ')
+                    counter++;
+                if(counter == 3)
+                    return 1;
+            }
+        }
+        for(i=4; i>2; i--)                                          //Check diagonal (/)
+        {
+            counter = 0;
+            for(j=0; j<4; j++)
+                if(board[i][j] == board[i-1][j+1] && board[i-1][j+1] == board[i-2][j+2] && board[i-2][j+2] == board[i-3][j+3] && board[i][j]!=' ')
+                    return 1;
+        }
+        for(i=4; i>2; i--)                                          //Check diagonal (\)
+        {
+            counter = 0;
+            for(j=6; j>2; j--)
+                if(board[i][j] == board[i-1][j-1] && board[i-1][j-1] == board[i-2][j-2] && board[i-2][j-2] == board[i-3][j-3] && board[i][j]!=' ')
+                    return 1;
+        }
+        return 0;
+    }
     void inputplayer()                                  //Function to input names of two players
     {
         clrscr();
@@ -197,6 +243,68 @@ public:
         cin>>p[0];
         cout<<"Enter name of player 2: ";
         cin>>p[1];
+    }
+    int inputmove()                                     //Function to check and input players' moves and modify board accordingly
+    {
+        reset();
+        int i=0,c,k;
+        a:
+        clrscr();
+        display();
+        do
+        {
+            cout<<p[i]<<"'s turn: \n";
+            choice:
+            cout<<endl<<"Enter column number:"<<endl;
+            cin>>c;
+            if(c>7||c<1)
+            {
+                cout<<"Wrong choice!"<<endl;
+                goto choice;
+            }
+            else
+            {
+                for(k=4;board[k][c-1]!=' ';k--);
+                if(k>=0)
+                {
+                    board[k][c-1]=play[i];
+                    i=(i+1)%2;
+                }
+                else
+                {
+                    cout<<"Column full!"<<endl;
+                    goto choice;
+                }
+            }
+            clrscr();
+            display();
+        }while(checkfull()==0 && checkwin()==0);
+        return i;
+    }
+    void game()
+    {
+        reset();
+        inputplayer();
+        int gno, score[2];
+        score[0]=0; score[1]=0;
+        cout<<"How many games do you wanna play?\n";
+        cin>>gno;
+        for(int j=0;j<gno;j++)
+        {
+            int i = inputmove();
+            if(checkwin() == 0 && checkfull()==1)
+            {
+                cout<<"\n\nIts a draw!\n\n\n"<<endl;
+            }
+            else
+            {
+                i=(i+1)%2;
+                score[i]++;
+            }
+            cout<<"Score: \n"<<p[0]<<": "<<score[0]<<"\n"<<p[1]<<": "<<score[1]<<"\n";
+            getch();
+        }
+
     }
 };
 void main()
@@ -219,13 +327,12 @@ void main()
     else if(c==2)
     {
         c4 c;
-        c.reset();
-        c.display();
+        c.game();
         getch();
         goto mainmenu;
     }
     else
     {
-
+        getch();
     }
 }
