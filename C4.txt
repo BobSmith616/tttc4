@@ -1,0 +1,9 @@
+INSTRUCTIONS FOR CONNECT 4:-
+
+Connect 4 is a game played vertically. The aim, similar to that of TicTacToe, is to 
+get any 4 of your coins consecutively in the same row, column, or diagonal. 
+On selecting to column number, your coin will fall on top of whichever coin is already in that column.
+Game ends when 4 of any coin are in a line in whichever direction.
+
+1. Play now 
+3. Main menu

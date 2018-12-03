@@ -1,0 +1,10 @@
+INSTRUCTIONS FOR TICTACTOE:
+Players play their turn alternately.The aim of the game is to fill any full row, column, 
+or diagonal with your shape (X or O).
+To play your turn, enter the row number and then the column number corresponding to the 
+slot you want to play your move in.For example:- [1,3] for top top right corner.
+Enjoy!
+
+
+1. Play now 
+3. Back to main menu
